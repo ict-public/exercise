@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b81ed44f54c4458890080c1dd6bbd22b" Name="Diagram1">
+        <EntityTypeShape EntityType="DataEntityModel.Condition" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataEntityModel.Equipment" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataEntityModel.RegisteredEquipment" Width="1.5" PointX="7.5" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataEntityModel.Site" Width="1.5" PointX="5.25" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataEntityModel.User" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataEntityModel.UserType" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
+        <AssociationConnector Association="DataEntityModel.FK_Equipments_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="DataEntityModel.FK_RegisteredEquipments_Equipments" ManuallyRouted="false" />
+        <AssociationConnector Association="DataEntityModel.FK_RegisteredEquipments_Sites" ManuallyRouted="false" />
+        <AssociationConnector Association="DataEntityModel.FK_Sites_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="DataEntityModel.FK_Users_UserTypes" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

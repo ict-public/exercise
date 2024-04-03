@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:WpfApp.ViewModels"
+                    xmlns:view="clr-namespace:WpfApp.Views">
+    <DataTemplate DataType="{x:Type vm:HomeViewModel}">
+        <view:Home />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:UserViewModel}">
+        <view:User />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:SiteViewModel}">
+        <view:Site />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:EquipmentViewModel}">
+        <view:Equipment />
+    </DataTemplate>
+</ResourceDictionary>

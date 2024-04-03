@@ -1,0 +1,409 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DataEntityModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Conditions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Equipments">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="SerialNumber" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="150" />
+          <Property Name="ConditionID" Type="int" />
+        </EntityType>
+        <EntityType Name="RegisteredEquipments">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EquipmentID" Type="int" />
+          <Property Name="SiteID" Type="int" />
+        </EntityType>
+        <EntityType Name="Sites">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="150" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserTypeID" Type="int" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="50" />
+          <Property Name="Username" Type="varchar" MaxLength="20" />
+          <Property Name="Password" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="UserTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Equipments_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Equipments" Type="Self.Equipments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Equipments">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RegisteredEquipments_Equipments">
+          <End Role="Equipments" Type="Self.Equipments" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RegisteredEquipments" Type="Self.RegisteredEquipments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipments">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RegisteredEquipments">
+              <PropertyRef Name="EquipmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RegisteredEquipments_Sites">
+          <End Role="Sites" Type="Self.Sites" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RegisteredEquipments" Type="Self.RegisteredEquipments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sites">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RegisteredEquipments">
+              <PropertyRef Name="SiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sites_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sites" Type="Self.Sites" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Sites">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_UserTypes">
+          <End Role="UserTypes" Type="Self.UserTypes" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="UserTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DataEntityModelStoreContainer">
+          <EntitySet Name="Conditions" EntityType="Self.Conditions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Equipments" EntityType="Self.Equipments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RegisteredEquipments" EntityType="Self.RegisteredEquipments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sites" EntityType="Self.Sites" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserTypes" EntityType="Self.UserTypes" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Equipments_Users" Association="Self.FK_Equipments_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Equipments" EntitySet="Equipments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegisteredEquipments_Equipments" Association="Self.FK_RegisteredEquipments_Equipments">
+            <End Role="Equipments" EntitySet="Equipments" />
+            <End Role="RegisteredEquipments" EntitySet="RegisteredEquipments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegisteredEquipments_Sites" Association="Self.FK_RegisteredEquipments_Sites">
+            <End Role="Sites" EntitySet="Sites" />
+            <End Role="RegisteredEquipments" EntitySet="RegisteredEquipments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sites_Users" Association="Self.FK_Sites_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Sites" EntitySet="Sites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_UserTypes" Association="Self.FK_Users_UserTypes">
+            <End Role="UserTypes" EntitySet="UserTypes" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DataEntityModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Condition">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Equipment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="SerialNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ConditionID" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Equipments_Users" FromRole="Equipments" ToRole="Users" />
+          <NavigationProperty Name="RegisteredEquipments" Relationship="Self.FK_RegisteredEquipments_Equipments" FromRole="Equipments" ToRole="RegisteredEquipments" />
+        </EntityType>
+        <EntityType Name="RegisteredEquipment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EquipmentID" Type="Int32" />
+          <Property Name="SiteID" Type="Int32" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK_RegisteredEquipments_Equipments" FromRole="RegisteredEquipments" ToRole="Equipments" />
+          <NavigationProperty Name="Site" Relationship="Self.FK_RegisteredEquipments_Sites" FromRole="RegisteredEquipments" ToRole="Sites" />
+        </EntityType>
+        <EntityType Name="Site">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="RegisteredEquipments" Relationship="Self.FK_RegisteredEquipments_Sites" FromRole="Sites" ToRole="RegisteredEquipments" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Sites_Users" FromRole="Sites" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserTypeID" Type="Int32" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Equipments" Relationship="Self.FK_Equipments_Users" FromRole="Users" ToRole="Equipments" />
+          <NavigationProperty Name="Sites" Relationship="Self.FK_Sites_Users" FromRole="Users" ToRole="Sites" />
+          <NavigationProperty Name="UserType" Relationship="Self.FK_Users_UserTypes" FromRole="Users" ToRole="UserTypes" />
+        </EntityType>
+        <EntityType Name="UserType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_UserTypes" FromRole="UserTypes" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_Equipments_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Equipments" Type="Self.Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Equipments">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RegisteredEquipments_Equipments">
+          <End Role="Equipments" Type="Self.Equipment" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RegisteredEquipments" Type="Self.RegisteredEquipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipments">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RegisteredEquipments">
+              <PropertyRef Name="EquipmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RegisteredEquipments_Sites">
+          <End Role="Sites" Type="Self.Site" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RegisteredEquipments" Type="Self.RegisteredEquipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sites">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RegisteredEquipments">
+              <PropertyRef Name="SiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sites_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sites" Type="Self.Site" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Sites">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_UserTypes">
+          <End Role="UserTypes" Type="Self.UserType" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="UserTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Conditions" EntityType="Self.Condition" />
+          <EntitySet Name="Equipments" EntityType="Self.Equipment" />
+          <EntitySet Name="RegisteredEquipments" EntityType="Self.RegisteredEquipment" />
+          <EntitySet Name="Sites" EntityType="Self.Site" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="UserTypes" EntityType="Self.UserType" />
+          <AssociationSet Name="FK_Equipments_Users" Association="Self.FK_Equipments_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Equipments" EntitySet="Equipments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegisteredEquipments_Equipments" Association="Self.FK_RegisteredEquipments_Equipments">
+            <End Role="Equipments" EntitySet="Equipments" />
+            <End Role="RegisteredEquipments" EntitySet="RegisteredEquipments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegisteredEquipments_Sites" Association="Self.FK_RegisteredEquipments_Sites">
+            <End Role="Sites" EntitySet="Sites" />
+            <End Role="RegisteredEquipments" EntitySet="RegisteredEquipments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sites_Users" Association="Self.FK_Sites_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Sites" EntitySet="Sites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_UserTypes" Association="Self.FK_Users_UserTypes">
+            <End Role="UserTypes" EntitySet="UserTypes" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DataEntityModelStoreContainer" CdmEntityContainer="DataEntities">
+          <EntitySetMapping Name="Conditions">
+            <EntityTypeMapping TypeName="DataEntityModel.Condition">
+              <MappingFragment StoreEntitySet="Conditions">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Equipments">
+            <EntityTypeMapping TypeName="DataEntityModel.Equipment">
+              <MappingFragment StoreEntitySet="Equipments">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ConditionID" ColumnName="ConditionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegisteredEquipments">
+            <EntityTypeMapping TypeName="DataEntityModel.RegisteredEquipment">
+              <MappingFragment StoreEntitySet="RegisteredEquipments">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EquipmentID" ColumnName="EquipmentID" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sites">
+            <EntityTypeMapping TypeName="DataEntityModel.Site">
+              <MappingFragment StoreEntitySet="Sites">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="DataEntityModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTypes">
+            <EntityTypeMapping TypeName="DataEntityModel.UserType">
+              <MappingFragment StoreEntitySet="UserTypes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
